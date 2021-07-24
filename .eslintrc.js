@@ -19,7 +19,9 @@ module.exports = {
   },
   plugins: ['vue', '@typescript-eslint'],
   rules: {
-    'no-unused-vars': 'error',
+    '@typescript-eslint/no-unused-vars': 'error',
+    '@typescript-eslint/explicit-module-boundary-types': 'off',
+    '@typescript-eslint/no-var-requires': 'off',
     'vue/html-self-closing': [
       'error',
       {
@@ -28,6 +30,12 @@ module.exports = {
           normal: 'always',
           component: 'always',
         },
+      },
+    ],
+    'prettier/prettier': [
+      'error',
+      {
+        endOfLine: 'auto',
       },
     ],
   },

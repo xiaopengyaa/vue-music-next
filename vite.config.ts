@@ -12,6 +12,16 @@ export default defineConfig({
       targets: ['defaults', 'not IE 11'],
     }),
   ],
+  css: {
+    preprocessorOptions: {
+      scss: {
+        additionalData: `
+          @import "@/assets/scss/variable.scss";
+          @import "@/assets/scss/mixin.scss";
+        `,
+      },
+    },
+  },
   resolve: {
     alias: {
       '@': resolve('./src'),
