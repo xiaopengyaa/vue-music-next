@@ -8,10 +8,15 @@
     "lint": "eslint */**/*.{js,ts,tsx} --fix"
   },
   "dependencies": {
+    "@better-scroll/core": "^2.4.1",
+    "@better-scroll/observe-dom": "^2.4.1",
+    "@better-scroll/pull-up": "^2.4.1",
+    "@better-scroll/slide": "^2.4.1",
     "axios": "^0.21.1",
     "express": "^4.17.1",
     "vue": "^3.0.5",
     "vue-router": "^4.0.10",
+    "vue3-lazy": "^1.0.0-alpha.1",
     "vuex": "^4.0.2"
   },
   "devDependencies": {

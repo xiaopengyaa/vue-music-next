@@ -8,3 +8,9 @@ export interface ResData<T> {
 export interface BaseReq {
   id: string
 }
+
+export interface SliderParams {
+  id: string
+  link: string
+  pic: string
+}
