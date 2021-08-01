@@ -14,12 +14,14 @@
     "@better-scroll/slide": "^2.4.1",
     "axios": "^0.21.1",
     "express": "^4.17.1",
+    "good-storage": "^1.1.1",
     "vue": "^3.0.5",
     "vue-router": "^4.0.10",
     "vue3-lazy": "^1.0.0-alpha.1",
     "vuex": "^4.0.2"
   },
   "devDependencies": {
+    "@types/good-storage": "^1.1.0",
     "@types/node": "^16.3.1",
     "@typescript-eslint/eslint-plugin": "^4.28.2",
     "@typescript-eslint/parser": "^4.28.2",

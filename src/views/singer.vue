@@ -11,6 +11,8 @@
   import { getSingerList } from '@/service/singer'
   import { Singer, SingerInfo } from '@/types/base'
   import router from '@/router'
+  import storage from 'good-storage'
+  import { SINGER_KEY } from '@/utils/constant'
 
   export default defineComponent({
     name: 'Singer',
@@ -28,9 +30,14 @@
 
       function selectSinger(singer: SingerInfo) {
         selectedSinger.value = singer
+        cacheSinger(singer)
         router.push({
           path: `/singer/${singer.mid}`,
         })
+      }
+
+      function cacheSinger(singer: SingerInfo) {
+        storage.session.set(SINGER_KEY, singer)
       }
 
       return {

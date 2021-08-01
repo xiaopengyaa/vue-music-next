@@ -11,6 +11,9 @@
   import { SingerInfo } from '@/types/base'
   import { processSongs } from '@/service/song'
   import { Song } from '@/types/singer'
+  import storage from 'good-storage'
+  import { SINGER_KEY } from '@/utils/constant'
+  import router from '@/router'
 
   export default defineComponent({
     name: 'SingerDetail',
@@ -19,9 +22,9 @@
     },
     props: {
       singer: {
-        type: Object as PropType<SingerInfo>,
+        type: Object as PropType<SingerInfo | null>,
         default: () => {
-          return {}
+          return null
         },
       },
     },
@@ -29,16 +32,41 @@
       const songs = ref<Song[]>([])
       const loading = ref(true)
 
+      const computedData = computed(() => {
+        let ret: SingerInfo | null = null
+        const data = props.singer
+        if (data) {
+          ret = data
+        } else {
+          const cached = storage.session.get(SINGER_KEY)
+          if (
+            cached &&
+            (cached.mid || cached.id + '') ===
+              router.currentRoute.value.params.id
+          ) {
+            ret = cached
+          }
+        }
+        return ret
+      })
+
       const title = computed(() => {
-        return props.singer.name
+        return computedData.value?.name
       })
 
       const pic = computed(() => {
-        return props.singer.pic
+        return computedData.value?.pic
       })
 
       onBeforeMount(async () => {
-        const result = await getSingerDetail(props.singer)
+        if (!computedData.value) {
+          const path = router.currentRoute.value.matched[0].path
+          router.push({
+            path,
+          })
+          return
+        }
+        const result = await getSingerDetail(computedData.value)
         loading.value = false
         if (result) {
           songs.value = await processSongs(result.songs)
@@ -46,6 +74,7 @@
       })
 
       return {
+        computedData,
         songs,
         title,
         pic,
