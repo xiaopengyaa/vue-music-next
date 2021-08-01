@@ -5,10 +5,10 @@
 </template>
 
 <script lang="ts">
+  import { defineComponent, ref } from 'vue'
   import useScroll from './use-scroll'
-  import { ref } from 'vue'
 
-  export default {
+  export default defineComponent({
     name: 'Scroll',
     props: {
       click: {
@@ -20,14 +20,14 @@
         default: 0,
       },
     },
-    setup(props) {
+    emits: ['scroll'],
+    setup(props, { emit }) {
       const rootRef = ref<HTMLElement | null>(null)
-      const scroll = useScroll(rootRef, props)
-
+      const scroll = useScroll(rootRef, props, emit)
       return {
         rootRef,
         scroll,
       }
     },
-  }
+  })
 </script>

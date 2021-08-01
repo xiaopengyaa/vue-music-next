@@ -14,3 +14,15 @@ export interface SliderParams {
   link: string
   pic: string
 }
+
+export interface SingerInfo {
+  id: number
+  mid: string
+  name: string
+  pic: string
+}
+
+export interface Singer {
+  title: string
+  list: SingerInfo[]
+}

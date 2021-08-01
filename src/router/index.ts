@@ -8,6 +8,8 @@ const TopList = () =>
   import('@/views/top-list.vue' /* webpackChunkName: "top-list" */)
 const Search = () =>
   import('@/views/search.vue' /* webpackChunkName: "search" */)
+const SingerDetail = () =>
+  import('@/views/singer-detail.vue' /* webpackChunkName: "singer-detail" */)
 
 const routes: RouteRecordRaw[] = [
   {
@@ -21,6 +23,12 @@ const routes: RouteRecordRaw[] = [
   {
     path: '/singer',
     component: Singer,
+    children: [
+      {
+        path: ':id',
+        component: SingerDetail,
+      },
+    ],
   },
   {
     path: '/top-list',

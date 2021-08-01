@@ -24,7 +24,9 @@ const loadingDirective: Directive<any, boolean> = {
       el.instance.setTitle(title)
     }
 
-    binding.value ? append(el) : remove(el)
+    if (binding.value !== binding.oldValue) {
+      binding.value ? append(el) : remove(el)
+    }
   },
 }
 
