@@ -15,6 +15,7 @@
     </div>
     <scroll
       v-loading="loading"
+      v-no-result:[noResultText]="noResult"
       class="list"
       :style="scrollStyle"
       :probe-type="3"
@@ -28,13 +29,19 @@
 </template>
 
 <script lang="ts">
-  import { defineComponent, PropType } from 'vue'
+  import { defineComponent, PropType, computed } from 'vue'
+  import { useStore } from '@/store'
   import SongList from '@/components/base/song-list/song-list.vue'
   import Scroll from '@/components/base/scroll/scroll.vue'
   import { Song } from '@/types/singer'
   import router from '@/router'
   import { Position } from '@better-scroll/slide/dist/types/SlidePages'
   import useStyle from './use-style'
+
+  interface SelectItem {
+    song: Song
+    index: number
+  }
 
   export default defineComponent({
     name: 'MusicList',
@@ -65,6 +72,10 @@
         type: Boolean,
         default: false,
       },
+      noResultText: {
+        type: String,
+        default: '抱歉，没有找到可播放的歌曲',
+      },
     },
     setup(props) {
       const {
@@ -78,6 +89,12 @@
         bgImage,
       } = useStyle(props)
 
+      const store = useStore()
+
+      const noResult = computed(() => {
+        return !props.loading && !props.songs.length
+      })
+
       function goBack() {
         router.back()
       }
@@ -86,14 +103,15 @@
         scrollY.value = -pos.y
       }
 
-      function selectItem() {
-        // selectPlay({
-        //   list: songs,
-        //   index,
-        // })
+      function selectItem({ index }: SelectItem) {
+        store.dispatch('selectPlay', {
+          list: props.songs,
+          index,
+        })
       }
+
       function random() {
-        // randomPlay(songs)
+        store.dispatch('randomPlay', props.songs)
       }
 
       return {
@@ -105,6 +123,7 @@
         scrollStyle,
         filterStyle,
         bgImage,
+        noResult,
         goBack,
         onScroll,
         selectItem,
