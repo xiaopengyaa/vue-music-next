@@ -154,6 +154,11 @@
   resolved "https://registry.yarnpkg.com/@types/json-schema/-/json-schema-7.0.8.tgz#edf1bf1dbf4e04413ca8e5b17b3b7d7d54b59818"
   integrity sha512-YSBPTLTVm2e2OoQIDYx8HaeWJ5tTToLH67kXR7zYNGupXMEHa2++G8k+DczX2cFVgalypqtyZIcU19AFcmOpmg==
 
+"@types/lyric-parser@^1.0.2":
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/@types/lyric-parser/-/lyric-parser-1.0.2.tgz#584c624404fc30bfcd8327ad8264e43c34a2f2d8"
+  integrity sha512-DuAhlOymYhNDFU6qxhIxxcmOZC72fMDfu0n9nEm8fBaHY2a2n7VypjI0KrT9WB/ip5rlTMI2e7MI5yablLnAxQ==
+
 "@types/node@^16.3.1":
   version "16.4.1"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-16.4.1.tgz#9fad171a5b701613ee8a6f4ece3c88b1034b1b03"
@@ -1491,6 +1496,11 @@ lru-cache@^6.0.0:
   integrity sha512-Jo6dJ04CmSjuznwJSS3pUeWmd/H0ffTlkXXgwZi+eq1UCmqQwCh+eLsYOYCwY991i2Fah4h1BEMCx4qThGbsiA==
   dependencies:
     yallist "^4.0.0"
+
+lyric-parser@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/lyric-parser/-/lyric-parser-1.0.1.tgz#a1f8aa77653cf947ecf94df51d5f816afc9ed44c"
+  integrity sha1-ofiqd2U8+Ufs+U31HV+Bavye1Ew=
 
 magic-string@^0.25.7:
   version "0.25.7"

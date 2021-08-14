@@ -112,6 +112,7 @@
         onTouchMove,
         onTouchEnd,
         onClick,
+        setOffset,
       }
     },
   })

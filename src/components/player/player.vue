@@ -10,8 +10,13 @@
           <h1 class="title">{{ currentSong.name }}</h1>
           <h2 class="subtitle">{{ currentSong.singer }}</h2>
         </div>
-        <div class="middle">
-          <div class="middle-l">
+        <div
+          class="middle"
+          @touchstart.prevent="onMiddleTouchStart"
+          @touchmove.prevent="onMiddleTouchMove"
+          @touchend.prevent="onMiddleTouchEnd"
+        >
+          <div class="middle-l" :style="middleLStyle">
             <div ref="cdWrapperRef" class="cd-wrapper">
               <div ref="cdRef" class="cd">
                 <img
@@ -22,9 +27,33 @@
                 />
               </div>
             </div>
+            <div class="playing-lyric-wrapper">
+              <div class="playing-lyric">{{ playingLyric }}</div>
+            </div>
           </div>
+          <scroll ref="lyricScrollRef" class="middle-r" :style="middleRStyle">
+            <div class="lyric-wrapper">
+              <div v-if="currentLyric" ref="lyricListRef">
+                <p
+                  v-for="(line, index) in currentLyric.lines"
+                  :key="line.time"
+                  class="text"
+                  :class="{ current: currentLineNum === index }"
+                >
+                  {{ line.txt }}
+                </p>
+              </div>
+              <div v-show="pureMusicLyric" class="pure-music">
+                <p>{{ pureMusicLyric }}</p>
+              </div>
+            </div>
+          </scroll>
         </div>
         <div class="bottom">
+          <div class="dot-wrapper">
+            <span class="dot" :class="{ active: currentShow === 'cd' }" />
+            <span class="dot" :class="{ active: currentShow === 'lyric' }" />
+          </div>
           <div class="progress-wrapper">
             <span class="time time-l">{{ formatTime(currentTime) }}</span>
             <div class="progress-bar-wrapper">
@@ -62,6 +91,7 @@
         </div>
       </div>
     </transition>
+    <mini-player :progress="progress" :toggle-play="togglePlay" />
     <audio
       ref="audioRef"
       @pause="pause"
@@ -75,24 +105,30 @@
 
 <script lang="ts">
   import { useStore } from '@/store'
-  import { computed, watch, ref, defineComponent } from 'vue'
+  import { computed, watch, ref, defineComponent, nextTick } from 'vue'
   import { formatTime } from '@/utils/util'
   import { PLAY_MODE } from '@/utils/constant'
   import { Song } from '@/types/singer'
   import useMode from './use-mode'
   import useFavorite from './use-favorite'
   import useCd from './use-cd'
+  import useLyric from './use-lyric'
+  import useMiddleInteractive from './use-middle-interactive'
   import ProgressBar from './progress-bar.vue'
+  import Scroll from '@/components/base/scroll/scroll.vue'
+  import MiniPlayer from './mini-player.vue'
 
   export default defineComponent({
     name: 'Player',
     components: {
       ProgressBar,
+      Scroll,
+      MiniPlayer,
     },
     setup() {
       // data
       const audioRef = ref<HTMLMediaElement | null>(null)
-      const barRef = ref(null)
+      const barRef = ref<InstanceType<typeof ProgressBar> | null>(null)
       const songReady = ref(false)
       const currentTime = ref(0)
       let progressChanging = false
@@ -109,6 +145,24 @@
       const { modeIcon, modeText, changeMode } = useMode()
       const { getFavoriteIcon, toggleFavorite } = useFavorite()
       const { cdCls, cdRef, cdImageRef } = useCd()
+      const {
+        currentLyric,
+        currentLineNum,
+        pureMusicLyric,
+        playingLyric,
+        lyricScrollRef,
+        lyricListRef,
+        playLyric,
+        stopLyric,
+      } = useLyric({ songReady, currentTime })
+      const {
+        currentShow,
+        middleLStyle,
+        middleRStyle,
+        onMiddleTouchStart,
+        onMiddleTouchMove,
+        onMiddleTouchEnd,
+      } = useMiddleInteractive()
 
       // computed
       const playlist = computed(() => store.state.playlist)
@@ -148,9 +202,18 @@
         if (audioEl) {
           if (newPlaying) {
             audioEl.play()
+            playLyric()
           } else {
             audioEl.pause()
+            stopLyric()
           }
+        }
+      })
+
+      watch(fullScreen, async (newFullScreen) => {
+        if (newFullScreen) {
+          await nextTick()
+          barRef.value?.setOffset(progress.value)
         }
       })
 
@@ -218,6 +281,7 @@
           return
         }
         songReady.value = true
+        playLyric()
       }
 
       function error() {
@@ -233,6 +297,8 @@
       function onProgressChanging(progress: number) {
         progressChanging = true
         currentTime.value = currentSong.value.duration * progress
+        playLyric()
+        stopLyric()
       }
 
       function onProgressChanged(progress: number) {
@@ -243,6 +309,7 @@
           if (!playing.value) {
             store.commit('setPlayingState', true)
           }
+          playLyric()
         }
       }
 
@@ -292,6 +359,22 @@
         cdCls,
         cdRef,
         cdImageRef,
+        // hooks:use-lyric
+        currentLyric,
+        currentLineNum,
+        pureMusicLyric,
+        playingLyric,
+        lyricScrollRef,
+        lyricListRef,
+        playLyric,
+        stopLyric,
+        // hooks:use-middle-interactive
+        currentShow,
+        middleLStyle,
+        middleRStyle,
+        onMiddleTouchStart,
+        onMiddleTouchMove,
+        onMiddleTouchEnd,
       }
     },
   })
