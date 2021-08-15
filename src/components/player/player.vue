@@ -1,6 +1,12 @@
 <template>
   <div v-show="playlist.length" class="player">
-    <transition name="normal">
+    <transition
+      name="normal"
+      @enter="enter"
+      @after-enter="afterEnter"
+      @leave="leave"
+      @after-leave="afterLeave"
+    >
       <div v-show="fullScreen" class="normal-player">
         <div class="background"><img :src="currentSong.pic" /></div>
         <div class="top">
@@ -114,6 +120,7 @@
   import useCd from './use-cd'
   import useLyric from './use-lyric'
   import useMiddleInteractive from './use-middle-interactive'
+  import useAnimation from './use-animation'
   import ProgressBar from './progress-bar.vue'
   import Scroll from '@/components/base/scroll/scroll.vue'
   import MiniPlayer from './mini-player.vue'
@@ -163,6 +170,8 @@
         onMiddleTouchMove,
         onMiddleTouchEnd,
       } = useMiddleInteractive()
+      const { cdWrapperRef, enter, afterEnter, leave, afterLeave } =
+        useAnimation()
 
       // computed
       const playlist = computed(() => store.state.playlist)
@@ -375,6 +384,12 @@
         onMiddleTouchStart,
         onMiddleTouchMove,
         onMiddleTouchEnd,
+        // hooks:use-animation
+        cdWrapperRef,
+        enter,
+        afterEnter,
+        leave,
+        afterLeave,
       }
     },
   })

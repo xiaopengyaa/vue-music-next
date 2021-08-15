@@ -32,7 +32,7 @@
   import { defineComponent, PropType, computed } from 'vue'
   import { useStore } from '@/store'
   import SongList from '@/components/base/song-list/song-list.vue'
-  import Scroll from '@/components/base/scroll/scroll.vue'
+  import Scroll from '@/components/wrap-scroll'
   import { Song } from '@/types/singer'
   import router from '@/router'
   import { Position } from '@better-scroll/slide/dist/types/SlidePages'

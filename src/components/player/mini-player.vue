@@ -28,7 +28,7 @@
       <div class="control" @click.stop="showPlaylist">
         <i class="icon-playlist" />
       </div>
-      <!-- <playlist ref="playlistRef" /> -->
+      <playlist ref="playlistRef" />
     </div>
   </transition>
 </template>
@@ -39,12 +39,12 @@
   import useCd from './use-cd'
   import useMiniSlider from './use-mini-slider'
   import ProgressCircle from './progress-circle.vue'
-  // import Playlist from './playlist'
+  import Playlist from './playlist.vue'
 
   export default defineComponent({
     name: 'MiniPlayer',
     components: {
-      // Playlist,
+      Playlist,
       ProgressCircle,
     },
     props: {
@@ -62,7 +62,7 @@
       },
     },
     setup() {
-      const playlistRef = ref(null)
+      const playlistRef = ref<InstanceType<typeof Playlist> | null>(null)
 
       const store = useStore()
       const fullScreen = computed(() => store.state.fullScreen)
@@ -82,7 +82,7 @@
       }
 
       function showPlaylist() {
-        // playlistRef.value.show()
+        playlistRef.value?.show()
       }
 
       return {

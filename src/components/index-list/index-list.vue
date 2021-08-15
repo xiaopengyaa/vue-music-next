@@ -42,7 +42,7 @@
 
 <script lang="ts">
   import { defineComponent, PropType } from 'vue'
-  import Scroll from '@/components/base/scroll/scroll.vue'
+  import Scroll from '@/components/wrap-scroll'
   import { Singer, SingerInfo } from '@/types/base'
   import useFixed from './use-fixed'
   import useShortcut from './use-shortcut'

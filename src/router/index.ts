@@ -10,6 +10,7 @@ const Search = () =>
   import('@/views/search.vue' /* webpackChunkName: "search" */)
 const SingerDetail = () =>
   import('@/views/singer-detail.vue' /* webpackChunkName: "singer-detail" */)
+const Album = () => import('@/views/album.vue' /* webpackChunkName: "album" */)
 
 const routes: RouteRecordRaw[] = [
   {
@@ -19,6 +20,12 @@ const routes: RouteRecordRaw[] = [
   {
     path: '/recommend',
     component: Recommend,
+    children: [
+      {
+        path: ':id',
+        component: Album,
+      },
+    ],
   },
   {
     path: '/singer',

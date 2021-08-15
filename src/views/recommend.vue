@@ -32,16 +32,24 @@
         </div>
       </div>
     </scroll>
+    <router-view v-slot="{ Component }">
+      <transition appear name="slide">
+        <component :is="Component" :data="selectedAlbum" />
+      </transition>
+    </router-view>
   </div>
 </template>
 
 <script lang="ts">
   import { defineComponent, onBeforeMount, ref, computed } from 'vue'
   import Slider from '@/components/base/slider/slider.vue'
-  import Scroll from '@/components/base/scroll/scroll.vue'
+  import Scroll from '@/components/wrap-scroll'
   import { getRecommend } from '@/service/recommend'
   import { SliderParams } from '@/types/base'
   import { Album } from '@/types/recommend'
+  import router from '@/router'
+  import storage from 'good-storage'
+  import { ALBUM_KEY } from '@/utils/constant'
 
   export default defineComponent({
     name: 'Recommend',
@@ -52,6 +60,7 @@
     setup() {
       const sliders = ref<SliderParams[]>([])
       const albums = ref<Album[]>([])
+      let selectedAlbum = ref<Album>()
 
       const loading = computed(() => {
         return !sliders.value.length && !albums.value.length
@@ -63,10 +72,23 @@
         albums.value = result?.albums || []
       })
 
+      function selectItem(album: Album) {
+        selectedAlbum.value = album
+        cacheAlbum(album)
+        router.push({
+          path: `/recommend/${album.id}`,
+        })
+      }
+      function cacheAlbum(album: Album) {
+        storage.session.set(ALBUM_KEY, album)
+      }
+
       return {
         sliders,
         albums,
         loading,
+        selectItem,
+        selectedAlbum,
       }
     },
   })
