@@ -9,4 +9,5 @@ export interface RootState {
   currentIndex: number
   fullScreen: boolean
   favoriteList: Song[]
+  searchHistory: string[]
 }

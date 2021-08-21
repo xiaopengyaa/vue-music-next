@@ -9,7 +9,7 @@
   import { computed, defineComponent } from 'vue'
   import { useStore } from '@/store'
   import MHeader from '@/components/header/header.vue'
-  import Player from '@/components/player/player.vue'
+  import Player from '@/components/player/music-player.vue'
   import Tab from '@/components/tab/tab.vue'
 
   export default defineComponent({

@@ -7,10 +7,12 @@ const Singer = () =>
 const TopList = () =>
   import('@/views/top-list.vue' /* webpackChunkName: "top-list" */)
 const Search = () =>
-  import('@/views/search.vue' /* webpackChunkName: "search" */)
+  import('@/views/music-search.vue' /* webpackChunkName: "search" */)
 const SingerDetail = () =>
   import('@/views/singer-detail.vue' /* webpackChunkName: "singer-detail" */)
 const Album = () => import('@/views/album.vue' /* webpackChunkName: "album" */)
+const TopDetail = () =>
+  import('@/views/top-detail.vue' /* webpackChunkName: "top-detail" */)
 
 const routes: RouteRecordRaw[] = [
   {
@@ -40,10 +42,22 @@ const routes: RouteRecordRaw[] = [
   {
     path: '/top-list',
     component: TopList,
+    children: [
+      {
+        path: ':id',
+        component: TopDetail,
+      },
+    ],
   },
   {
     path: '/search',
     component: Search,
+    children: [
+      {
+        path: ':id',
+        component: SingerDetail,
+      },
+    ],
   },
 ]
 

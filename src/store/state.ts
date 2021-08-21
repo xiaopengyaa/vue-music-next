@@ -1,4 +1,4 @@
-import { PLAY_MODE, FAVORITE_KEY } from '@/utils/constant'
+import { PLAY_MODE, FAVORITE_KEY, SEARCH_KEY } from '@/utils/constant'
 import { RootState } from '@/types/store'
 import { load } from '@/utils/array-store'
 
@@ -10,6 +10,7 @@ const state: RootState = {
   currentIndex: 0,
   fullScreen: false,
   favoriteList: load(FAVORITE_KEY),
+  searchHistory: load(SEARCH_KEY),
 }
 
 export default state

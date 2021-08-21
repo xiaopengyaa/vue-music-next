@@ -47,7 +47,7 @@ export default function createDetailComponent(
       })
 
       const title = computed(() => {
-        return computedData.value?.name
+        return computedData.value?.name || computedData.value?.title
       })
 
       const pic = computed(() => {

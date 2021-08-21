@@ -27,9 +27,4 @@ export default defineConfig({
       '@': resolve('./src'),
     },
   },
-  server: {
-    fs: {
-      allow: ['./'],
-    },
-  },
 })

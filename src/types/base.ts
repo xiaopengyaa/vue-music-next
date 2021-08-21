@@ -18,8 +18,9 @@ export interface SliderParams {
 export interface SingerInfo {
   id: number
   mid: string
-  name: string
   pic: string
+  name?: string
+  title?: string
 }
 
 export interface Singer {

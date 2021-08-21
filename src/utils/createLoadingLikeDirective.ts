@@ -1,38 +1,35 @@
-import { Component, Directive, createApp } from 'vue'
+import { createApp, Component, Directive } from 'vue'
 import { addClass, removeClass } from '@/utils/dom'
 
 const relativeCls = 'g-relative'
 
 export default function createLoadingLikeDirective(
-  comp: Component
+  Comp: Component
 ): Directive<any, boolean> {
-  const name = comp.name || Symbol('default')
-
   return {
     mounted(el, binding) {
-      const instance = createApp(comp).mount(document.createElement('div'))
-
+      const app = createApp(Comp)
+      const instance = app.mount(document.createElement('div')) as any
+      const name = Comp.name || Symbol('default')
       if (!el[name]) {
         el[name] = {}
       }
-
       el[name].instance = instance
-
       const title = binding.arg
       if (typeof title !== 'undefined') {
-        el[name].instance.setTitle(title)
+        instance.setTitle(title)
       }
 
-      if (binding.value !== binding.oldValue) {
+      if (binding.value) {
         append(el)
       }
     },
     updated(el, binding) {
       const title = binding.arg
+      const name = Comp.name || Symbol('default')
       if (typeof title !== 'undefined') {
         el[name].instance.setTitle(title)
       }
-
       if (binding.value !== binding.oldValue) {
         binding.value ? append(el) : remove(el)
       }
@@ -40,14 +37,16 @@ export default function createLoadingLikeDirective(
   }
 
   function append(el: any) {
+    const name = Comp.name || Symbol('default')
     const style = getComputedStyle(el)
-    if (['fixed', 'relative', 'absolute'].includes(style.position)) {
+    if (['absolute', 'fixed', 'relative'].indexOf(style.position) === -1) {
       addClass(el, relativeCls)
     }
     el.appendChild(el[name].instance.$el)
   }
 
   function remove(el: any) {
+    const name = Comp.name || Symbol('default')
     removeClass(el, relativeCls)
     el.removeChild(el[name].instance.$el)
   }

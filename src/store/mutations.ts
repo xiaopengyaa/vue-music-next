@@ -31,6 +31,9 @@ const mutations: MutationTree<RootState> = {
       return item
     })
   },
+  setSearchHistory(state, searches) {
+    state.searchHistory = searches
+  },
 }
 
 export default mutations
