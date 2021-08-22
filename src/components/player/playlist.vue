@@ -51,7 +51,7 @@
           confirm-btn-text="清空"
           @confirm="confirmClear"
         />
-        <!-- <add-song ref="addSongRef" /> -->
+        <add-song ref="addSongRef" />
       </div>
     </transition>
   </teleport>
@@ -62,7 +62,7 @@
   import { useStore } from '@/store'
   import Scroll from '@/components/base/scroll/scroll.vue'
   import Confirm from '@/components/base/confirm/confirm.vue'
-  // import AddSong from '@/components/add-song/add-song.vue'
+  import AddSong from '@/components/add-song/add-song.vue'
   import useMode from './use-mode'
   import useFavorite from './use-favorite'
   import { Song } from '@/types/singer'
@@ -70,7 +70,7 @@
   export default defineComponent({
     name: 'Playlist',
     components: {
-      // AddSong,
+      AddSong,
       Confirm,
       Scroll,
     },
@@ -80,7 +80,7 @@
       const scrollRef = ref<InstanceType<typeof Scroll> | null>(null)
       const listRef = ref<any>(null)
       const confirmRef = ref<InstanceType<typeof Confirm> | null>(null)
-      // const addSongRef = ref<InstanceType<typeof AddSong> | null>(null)
+      const addSongRef = ref<InstanceType<typeof AddSong> | null>(null)
 
       const store = useStore()
       const playlist = computed(() => store.state.playlist)
@@ -165,7 +165,7 @@
       }
 
       function showAddSong() {
-        // addSongRef.value.show()
+        addSongRef.value?.show()
       }
 
       return {
@@ -174,7 +174,7 @@
         scrollRef,
         listRef,
         confirmRef,
-        // addSongRef,
+        addSongRef,
         playlist,
         sequenceList,
         getCurrentIcon,

@@ -121,6 +121,7 @@
   import useLyric from './use-lyric'
   import useMiddleInteractive from './use-middle-interactive'
   import useAnimation from './use-animation'
+  import usePlayHistory from './use-play-history'
   import ProgressBar from './progress-bar.vue'
   import Scroll from '@/components/base/scroll/scroll.vue'
   import MiniPlayer from './mini-player.vue'
@@ -172,6 +173,7 @@
       } = useMiddleInteractive()
       const { cdWrapperRef, enter, afterEnter, leave, afterLeave } =
         useAnimation()
+      const { savePlay } = usePlayHistory()
 
       // computed
       const playlist = computed(() => store.state.playlist)
@@ -291,6 +293,7 @@
         }
         songReady.value = true
         playLyric()
+        savePlay(currentSong.value)
       }
 
       function error() {

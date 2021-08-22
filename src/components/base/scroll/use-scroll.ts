@@ -2,7 +2,14 @@ import BScroll, { Options } from '@better-scroll/core'
 import { BScrollConstructor } from '@better-scroll/core/dist/types/BScroll'
 import ObserveDOM from '@better-scroll/observe-dom'
 import { Position } from '@better-scroll/slide/dist/types/SlidePages'
-import { onMounted, onUnmounted, ref, Ref } from 'vue'
+import {
+  onActivated,
+  onDeactivated,
+  onMounted,
+  onUnmounted,
+  ref,
+  Ref,
+} from 'vue'
 
 BScroll.use(ObserveDOM)
 
@@ -30,6 +37,15 @@ export default function useScroll(
 
   onUnmounted(() => {
     scroll.value?.destroy()
+  })
+
+  onActivated(() => {
+    scroll.value?.enable()
+    scroll.value?.refresh()
+  })
+
+  onDeactivated(() => {
+    scroll.value?.disable()
   })
 
   return scroll

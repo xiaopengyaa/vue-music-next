@@ -13,6 +13,8 @@ const SingerDetail = () =>
 const Album = () => import('@/views/album.vue' /* webpackChunkName: "album" */)
 const TopDetail = () =>
   import('@/views/top-detail.vue' /* webpackChunkName: "top-detail" */)
+const UserCenter = () =>
+  import('@/views/user-center.vue' /* webpackChunkName: "user-center" */)
 
 const routes: RouteRecordRaw[] = [
   {
@@ -58,6 +60,12 @@ const routes: RouteRecordRaw[] = [
         component: SingerDetail,
       },
     ],
+  },
+  {
+    path: '/user',
+    components: {
+      user: UserCenter,
+    },
   },
 ]
 

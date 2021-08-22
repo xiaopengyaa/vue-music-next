@@ -10,4 +10,5 @@ export interface RootState {
   fullScreen: boolean
   favoriteList: Song[]
   searchHistory: string[]
+  playHistory: Song[]
 }
